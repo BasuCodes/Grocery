@@ -23,6 +23,7 @@ void userRegister()
                 printf("Enter Password\n");
                 scanf("%s",users[numberofUsers].password);
                 numberofUsers++;
+                fileWrite();
                 return;
             }
         }
@@ -30,8 +31,8 @@ void userRegister()
     else{
         printf("Enter Password\n");
         scanf("%s",users[numberofUsers].password);
-        printf("Register Successfully\n");
         numberofUsers++;
+        return;
     }
 }
 
@@ -42,22 +43,26 @@ void userLogin()
     {
         printf("Enter Email ID\n");
         scanf("%s",gmail);
-        printf("Enter Password\n");
-        scanf("%s",password);
         for(int userIndex=0;userIndex<numberofUsers;userIndex++)
         {
             if(strcmp(gmail,users[userIndex].gmail)==0)
             {
+                printf("Enter Password\n");
+                scanf("%s",password);
                 if(strcmp(password,users[userIndex].password)==0)
                 {
                     printf("Login Successfully\n");
+                    return;
                 }
                 else{
-                    printf("Invalid email or Password\n");
+                    printf("Password Incorrect\n");
                     return;
                 }
             }
         }
+        printf("The Email Id not Register please Register\n");
+        userRegister();
+        printf("Login Successfully\n");
     }
     else{
         printf("No Record Found\n");
@@ -94,7 +99,8 @@ void fileRead()
     }
     if(users==NULL)
     {
-        users=(struct User*) malloc(sizeof(struct User));
+        users=(struct User*)malloc(sizeof(struct User));
+
     }
     while(fscanf(gFile,"%s %ld %s %s %s",users[numberofUsers].userName,
                   &users[numberofUsers].phoneNumber,users[numberofUsers].Address,
